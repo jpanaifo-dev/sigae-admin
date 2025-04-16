@@ -22,3 +22,4 @@ export const configApps = {
 }
 
 export type MenuConfigApps = keyof typeof configApps
+
