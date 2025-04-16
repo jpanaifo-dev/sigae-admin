@@ -3,8 +3,7 @@ import React from 'react'
 import { Menu } from './menu'
 import { useSidebar } from '@/hooks/use-sidebar'
 import { useStore } from '@/hooks/use-store'
-import { MenuConfigApps } from '@/types/configApps'
-import { SectionElement } from '@/types'
+import { SectionElement, MenuConfigApps } from '@/types'
 
 interface SideBarProps {
   app?: MenuConfigApps

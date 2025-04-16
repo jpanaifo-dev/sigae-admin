@@ -6,15 +6,14 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { CollapseMenuButton } from '@/components/app'
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
   TooltipProvider,
 } from '@/components/ui/tooltip'
-import { MenuConfigApps } from '@/types/configApps'
-import { SectionElement } from '@/types'
+import { SectionElement, MenuConfigApps } from '@/types'
+import { CollapseMenuButton } from './collapse-menu-button'
 
 interface MenuProps {
   app?: MenuConfigApps
