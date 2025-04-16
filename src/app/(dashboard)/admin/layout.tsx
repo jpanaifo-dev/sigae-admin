@@ -48,7 +48,7 @@ export default async function Layout(props: LayoutProps) {
   return (
     <>
       <NavBarCustom
-        app={APP_NAME_KEY}
+        // app={APP_NAME_KEY}
         person={personData}
         email={data?.email}
       />

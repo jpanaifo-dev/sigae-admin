@@ -1,4 +1,4 @@
-import { ServicesModulesType } from '@/config/modules.cofig'
+import { ServicesModulesType } from '@/config/modules'
 import { headerClient } from './header-client'
 
 export async function get(path: string, module: keyof ServicesModulesType) {

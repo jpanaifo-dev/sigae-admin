@@ -1,5 +1,5 @@
 'use server'
-import { SERVICES_MODULES, ServicesModulesType } from '@/config/modules.cofig'
+import { SERVICES_MODULES, ServicesModulesType } from '@/config/modules'
 import { cookies } from 'next/headers'
 import { decrypt } from '@/lib/session'
 import { IUserAuth } from '@/types'

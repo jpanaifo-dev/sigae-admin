@@ -1,6 +1,5 @@
 'use server'
-import { SERVICES_MODULES, ServicesModulesType } from '@/config/modules.cofig'
-
+import { SERVICES_MODULES, ServicesModulesType } from '@/config/modules'
 const APP_NAME = process.env.APP_NAME
 
 import { decrypt } from '@/lib/session'

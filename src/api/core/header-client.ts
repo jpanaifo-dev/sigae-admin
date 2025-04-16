@@ -1,5 +1,6 @@
 // fetch-services.ts
-import { ServicesModulesType } from '@/config/modules.cofig'
+import { ServicesModulesType } from '@/config/modules'
+
 import { fetchCore } from './fetch-client'
 
 export async function headerClient(
