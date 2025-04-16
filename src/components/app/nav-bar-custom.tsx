@@ -1,7 +1,7 @@
 'use client'
 import { useStore } from 'zustand'
 import { useSidebar } from '@/hooks'
-import { ModeToggle, SidebarToggle } from '@/components/buttons'
+import { SidebarToggle } from '@/components/buttons'
 import { LogoRender } from '../miscellaneous'
 import { cn } from '@/lib/utils'
 import { IPerson } from '@/types'
@@ -63,16 +63,13 @@ export const NavBarCustom = (props: NavBarCustomProps) => {
         `sticky top-0 z-50 w-full  shadow text-white dark:shadow-secondary`
       )}
       style={{
-        backgroundColor: colorApp,
+        backgroundColor: colorApp
       }}
     >
       <div className="px-4 sm:px-6 md:px-7 flex h-16 items-center">
         <div className="flex items-center space-x-4 lg:space-x-0 sm:gap-3">
           {/* <SheetMenu title={nameApp} /> */}
-          <SidebarToggle
-            isOpen={isOpen}
-            setIsOpen={toggleOpen}
-          />
+          <SidebarToggle isOpen={isOpen} setIsOpen={toggleOpen} />
           <LogoRender
             nameApp={nameApp}
             href={ADMIN_URLS_APP.BASE.URL_BASE}
@@ -80,7 +77,7 @@ export const NavBarCustom = (props: NavBarCustomProps) => {
           />
         </div>
         <div className="flex flex-1 items-center justify-end gap-2">
-          <ModeToggle />
+          {/* <ModeToggle /> */}
           {/* {MoreAppsButton && MoreAppsButton.length > 0 && (
             <MoreApps apps={MoreAppsButton}>
               <GripIcon />
