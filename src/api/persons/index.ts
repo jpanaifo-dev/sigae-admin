@@ -1,3 +1,4 @@
+export * from './person'
 // import { fetchPerson, fetchPersons } from './person'
 // import { fetchDocumentsType } from './documents'
 // import { fetchPersonsInfo, updatePersonContact } from './person-contact'
