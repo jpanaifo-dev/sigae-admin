@@ -1,5 +1,5 @@
 'use server'
-import { ISectionMenu } from '@/types'
+import { IMenuList } from '@/types'
 import { ENDPOINTS_CONFIG } from '@/config/modules'
 import { fetchUserService } from '../core'
 
@@ -7,7 +7,7 @@ const API_BASE = ENDPOINTS_CONFIG.MODULES
 
 export const fetchMenu = async (): Promise<{
   status: number
-  data?: ISectionMenu[]
+  data?: IMenuList[]
   errors?: string[]
 }> => {
   const url = `${API_BASE.MENU}`
