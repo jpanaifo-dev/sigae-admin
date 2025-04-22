@@ -30,7 +30,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Pencil, PlusCircle } from 'lucide-react'
+import { Loader, Pencil, PlusCircle } from 'lucide-react'
 import { SectionFormValues, sectionSchema } from './section.schema'
 import { createOrUpdateSectionMenu } from '@/api/accounts'
 import { ADMIN_URLS_APP } from '@/config/routes'
@@ -48,12 +48,14 @@ export const SectionFormModal: React.FC<SectionFormModalProps> = ({
 }) => {
   const [dialogOpen, setDialogOpen] = React.useState(false)
   const [confirmOpen, setConfirmOpen] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false)
   const form = useForm<SectionFormValues>({
     resolver: zodResolver(sectionSchema),
     defaultValues
   })
 
   const handleSubmit = async () => {
+    setIsLoading(true)
     const values = form.getValues()
     try {
       await createOrUpdateSectionMenu({
@@ -63,11 +65,15 @@ export const SectionFormModal: React.FC<SectionFormModalProps> = ({
       })
       setConfirmOpen(false)
       setDialogOpen(false)
-      form.reset()
+      form.reset({
+        module: moduleId,
+        name: ''
+      })
     } catch (error) {
       console.error('Error al guardar la sección:', error)
       // Aquí podrías usar un toast o alerta visual
     }
+    setIsLoading(false)
   }
 
   return (
@@ -111,7 +117,8 @@ export const SectionFormModal: React.FC<SectionFormModalProps> = ({
               />
 
               <DialogFooter>
-                <Button type="submit">
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading && <Loader className="animate-spin mr-2" />}
                   {sectionId ? 'Guardar cambios' : 'Crear sección'}
                 </Button>
               </DialogFooter>

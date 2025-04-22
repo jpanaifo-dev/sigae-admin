@@ -60,12 +60,12 @@ export async function createOrUpdateSectionMenu({
   errors?: string[]
 }> {
   const url = id_section
-    ? `${API_BASE.SECTION_MENU}${id_section}`
+    ? `${API_BASE.SECTION_MENU}${id_section}/`
     : API_BASE.SECTION_MENU
 
   try {
     const response = id_section
-      ? await fetchUserService.put(url, data)
+      ? await fetchUserService.patch(url, data)
       : await fetchUserService.post(url, data)
 
     if (!response?.ok) {
