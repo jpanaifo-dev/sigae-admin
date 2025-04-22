@@ -1,8 +1,15 @@
 import React from 'react'
 import { fetchModules } from '@/api/accounts'
+import { ModulesListPage } from '@/modules/modulos/pages'
 
 export default async function Page() {
   const dataModules = await fetchModules()
 
-  return <div>page</div>
+  return (
+    <>
+      {dataModules?.data && dataModules?.data?.length > 0 && (
+        <ModulesListPage modules={dataModules.data} />
+      )}
+    </>
+  )
 }
