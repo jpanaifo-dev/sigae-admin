@@ -1,6 +1,7 @@
 import React from 'react'
 import { HeaderSection } from '@/components'
 import { fetchModuleById } from '@/api/accounts'
+import { ADMIN_URLS_APP } from '@/config/routes'
 
 interface Props {
   params: Promise<{ modulo_id: string }>
@@ -21,6 +22,8 @@ export default async function Layout({ params, children }: Props) {
         title={`MÓDULO: ${dataModule?.data?.name}`}
         description="Gestiona las configuraciones del módulo."
         disabledActions
+        backButton
+        urlBack={ADMIN_URLS_APP.MODULES.URL_BASE}
       />
       {children}
     </div>
