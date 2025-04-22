@@ -1,15 +1,22 @@
 import { IMenuList, ISectionMenu, ISubMenuList } from '@/types'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Pencil, Trash2, PlusCircle, EyeOff, Eye } from 'lucide-react'
+import { Pencil, Trash2, EyeOff, Eye } from 'lucide-react'
+import { SectionFormModal } from '../components'
 
 interface Props {
+  moduleId?: number // id del módulo al que pertenece la sección
   sectionList: ISectionMenu[]
   menu: IMenuList[]
   submenu?: ISubMenuList[]
 }
 
-export const SectionModuleList = ({ sectionList, menu, submenu }: Props) => {
+export const SectionModuleList = ({
+  moduleId,
+  sectionList,
+  menu,
+  submenu
+}: Props) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
@@ -21,28 +28,20 @@ export const SectionModuleList = ({ sectionList, menu, submenu }: Props) => {
             Aquí puedes gestionar las secciones de los módulos de la aplicación.
           </p>
         </div>
-        <Button variant="default">
-          <PlusCircle className="w-4 h-4 mr-2" /> Nueva Sección
-        </Button>
+        <SectionFormModal moduleId={moduleId?.toString()} />
       </div>
 
       {sectionList.length > 0 ? (
         sectionList.map((section) => (
-          <Card key={section.id}>
+          <Card key={section.id} className="shadow-none rounded-md border py-2">
             <CardContent className="p-4 space-y-2">
               <div className="flex justify-between items-center">
-                <h2 className="text-xl font-semibold text-gray-700">
+                <h2 className="text-xl font-bold text-gray-700">
                   {section.name}
                 </h2>
                 <div className="space-x-2">
                   <Button size="icon" variant="outline" title="Editar">
                     <Pencil className="w-4 h-4" />
-                  </Button>
-                  <Button size="icon" variant="outline" title="Eliminar">
-                    <Trash2 className="w-4 h-4 text-red-500" />
-                  </Button>
-                  <Button size="icon" variant="outline" title="Desactivar">
-                    <EyeOff className="w-4 h-4 text-yellow-500" />
                   </Button>
                 </div>
               </div>
