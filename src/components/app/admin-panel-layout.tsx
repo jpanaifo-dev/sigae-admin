@@ -9,7 +9,7 @@ import { useSidebar, useStore } from '@/hooks'
 export const AdminPanelLayout = ({
   children,
   app,
-  menuItems,
+  menuItems
 }: {
   children: React.ReactNode
   app?: MenuConfigApps
@@ -21,10 +21,7 @@ export const AdminPanelLayout = ({
 
   return (
     <>
-      <SideBar
-        menuItems={menuItems}
-        app={app}
-      />
+      <SideBar menuItems={menuItems} app={app} />
       <main
         className={cn(
           'min-h-[calc(100vh_-_56px)] bg-zinc-50 dark:bg-zinc-900 transition-[margin-left] ease-in-out duration-300 relative',
@@ -34,7 +31,7 @@ export const AdminPanelLayout = ({
         <section className="px-4 py-3 bg-gray-100 sticky top-14 z-20">
           <BreadcrumbCustom />
         </section>
-        <main className="w-full container">{children}</main>
+        <main className="w-full container mx-auto">{children}</main>
       </main>
       <footer
         className={cn(
