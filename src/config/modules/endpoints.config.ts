@@ -6,7 +6,7 @@ const BASE_PATHS = {
   ADMISSION: 'admission/',
   PROGRAM: 'program/',
   FILE: 'manager/',
-  REPORT: 'report/',
+  REPORT: 'report/'
 }
 
 export const ENDPOINTS_CONFIG = {
@@ -17,14 +17,24 @@ export const ENDPOINTS_CONFIG = {
     RECOVERY_PASSWORD: `${BASE_PATHS.AUTH}user/recovery-password/`,
     EMAIL_APPLICANT: `${BASE_PATHS.AUTH}user/email-applicant/`,
     REFRESH_SESSION: `${BASE_PATHS.AUTH}user/refresh-session/`,
-    LOGIN_WITH_GOOGLE: `${BASE_PATHS.AUTH}user/google_sign_in/`,
+    LOGIN_WITH_GOOGLE: `${BASE_PATHS.AUTH}user/google_sign_in/`
   },
   ACCOUNTS: {
     ACCESS_MENU: `${BASE_PATHS.ACCOUNTS}user/accessmenu/`,
     CREATE_ACCOUNT: `${BASE_PATHS.ACCOUNTS}user/create-account/`,
     CHANGE_PASSWORD: `${BASE_PATHS.ACCOUNTS}user/change-password/`,
     EMAIL_CHANGE: `${BASE_PATHS.ACCOUNTS}user/email-change/`,
-    MENU: `${BASE_PATHS.ACCOUNTS}user/access_menu/`,
+    MENU: `${BASE_PATHS.ACCOUNTS}user/access_menu/`
+  },
+  MODULES: {
+    MODULE: `${BASE_PATHS.ACCOUNTS}module/`,
+    MENU: `${BASE_PATHS.ACCOUNTS}menu/`,
+    SUBMENU: `${BASE_PATHS.ACCOUNTS}submenu/`,
+    SECTION_MENU: `${BASE_PATHS.ACCOUNTS}sectionmenu/`,
+    USER: `${BASE_PATHS.ACCOUNTS}user/`,
+    USER_ACCESS: `${BASE_PATHS.ACCOUNTS}user/useraccess/`,
+    USER_ROLE: `${BASE_PATHS.ACCOUNTS}user/userrole/`,
+    AUDIT: `${BASE_PATHS.ACCOUNTS}audit/`,
   },
   PERSON: {
     PERSON: `${BASE_PATHS.PERSON}person/`,
@@ -44,8 +54,8 @@ export const ENDPOINTS_CONFIG = {
     PERSON_FILES: `${BASE_PATHS.PERSON}files/`,
     PERSON_FILES_PENDING: `${BASE_PATHS.PERSON}person/files_requirements/`,
     GET_PERSON_USER: `${BASE_PATHS.PERSON}person/get_person/`,
-    UPDATE_PHOTO: `${BASE_PATHS.PERSON}person/update_photo/`,
-  },
+    UPDATE_PHOTO: `${BASE_PATHS.PERSON}person/update_photo/`
+  }
   //   CORE: {
   //     ADMIN_UNITY: `${BASE_PATHS.CORE}adminunity/`,
   //     RECTORAL_RESOLUTION: `${BASE_PATHS.CORE}rectoralresolution/`,
