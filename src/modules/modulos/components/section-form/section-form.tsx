@@ -76,6 +76,8 @@ export const SectionFormModal: React.FC<SectionFormModalProps> = ({
     setIsLoading(false)
   }
 
+  const isDirty = form.formState.isDirty
+
   return (
     <>
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -117,7 +119,7 @@ export const SectionFormModal: React.FC<SectionFormModalProps> = ({
               />
 
               <DialogFooter>
-                <Button type="submit" disabled={isLoading}>
+                <Button type="submit" disabled={isLoading || !isDirty}>
                   {isLoading && <Loader className="animate-spin mr-2" />}
                   {sectionId ? 'Guardar cambios' : 'Crear sección'}
                 </Button>

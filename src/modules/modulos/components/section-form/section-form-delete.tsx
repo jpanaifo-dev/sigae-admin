@@ -43,7 +43,11 @@ export const SectionDeleteAlert: React.FC<SectionDeleteAlertProps> = ({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" size="icon">
+        <Button
+          variant="outline"
+          size="icon"
+          className="text-red-500 hover:bg-red-500 hover:text-white"
+        >
           <Trash2 className="w-4 h-4" />
         </Button>
       </AlertDialogTrigger>

@@ -1,12 +1,12 @@
 import { IMenuList, ISectionMenu, ISubMenuList } from '@/types'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Pencil, Trash2, EyeOff, Eye } from 'lucide-react'
+import { Pencil, Trash2, Plus } from 'lucide-react'
 import { SectionDeleteAlert, SectionFormModal } from '../components'
 import { ADMIN_URLS_APP } from '@/config/routes'
 
 interface Props {
-  moduleId?: number // id del módulo al que pertenece la sección
+  moduleId?: number
   sectionList: ISectionMenu[]
   menu: IMenuList[]
   submenu?: ISubMenuList[]
@@ -36,7 +36,7 @@ export const SectionModuleList = ({
         sectionList.map((section) => (
           <Card key={section.id} className="shadow-none rounded-md border py-2">
             <CardContent className="p-4 space-y-2">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center pb-2">
                 <h2 className="text-xl font-bold text-gray-700">
                   {section.name}
                 </h2>
@@ -58,13 +58,24 @@ export const SectionModuleList = ({
                 </div>
               </div>
 
-              <div className="ml-4">
+              <hr className="border-gray-300" />
+
+              <div className="ml-4 space-y-4">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-gray-600 font-semibold">Menús</h3>
+                  {/* Botón para agregar un menú */}
+                  <Button size="sm" variant="outline">
+                    <Plus className="w-4 h-4 mr-1" />
+                    Añadir menú
+                  </Button>
+                </div>
+
                 {menu
                   .filter((item) => item.section === section.id)
                   .map((menuItem) => (
                     <div
                       key={menuItem.id}
-                      className="pl-2 border-l border-gray-300 mb-2"
+                      className="pl-2 border-l border-gray-300 mb-3"
                     >
                       <div className="flex justify-between items-center text-gray-700">
                         <span className="font-medium">{menuItem.name}</span>
@@ -75,23 +86,21 @@ export const SectionModuleList = ({
                           <Button size="icon" variant="ghost">
                             <Trash2 className="w-4 h-4 text-red-500" />
                           </Button>
-                          <Button size="icon" variant="ghost">
-                            {menuItem.is_active ? (
-                              <Eye className="w-4 h-4 text-green-500" />
-                            ) : (
-                              <EyeOff className="w-4 h-4 text-yellow-500" />
-                            )}
+                          {/* Botón para agregar submenú */}
+                          <Button size="icon" variant="outline">
+                            <Plus className="w-4 h-4" />
                           </Button>
                         </div>
                       </div>
 
+                      {/* Submenús */}
                       {submenu &&
                         submenu
                           .filter((subItem) => subItem.menu === menuItem.id)
                           .map((subMenuItem) => (
                             <div
                               key={subMenuItem.id}
-                              className="ml-4 text-gray-600 flex justify-between items-center"
+                              className="ml-4 text-gray-600 flex justify-between items-center mt-1"
                             >
                               <span>- {subMenuItem.name}</span>
                               <div className="space-x-1">
@@ -100,13 +109,6 @@ export const SectionModuleList = ({
                                 </Button>
                                 <Button size="icon" variant="ghost">
                                   <Trash2 className="w-4 h-4 text-red-500" />
-                                </Button>
-                                <Button size="icon" variant="ghost">
-                                  {subMenuItem.is_active ? (
-                                    <Eye className="w-4 h-4 text-green-500" />
-                                  ) : (
-                                    <EyeOff className="w-4 h-4 text-yellow-500" />
-                                  )}
                                 </Button>
                               </div>
                             </div>
