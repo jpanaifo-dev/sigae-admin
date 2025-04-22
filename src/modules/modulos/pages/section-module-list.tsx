@@ -40,9 +40,14 @@ export const SectionModuleList = ({
                   {section.name}
                 </h2>
                 <div className="space-x-2">
-                  <Button size="icon" variant="outline" title="Editar">
-                    <Pencil className="w-4 h-4" />
-                  </Button>
+                  <SectionFormModal
+                    moduleId={moduleId?.toString()}
+                    sectionId={section.id.toString()}
+                    defaultValues={{
+                      name: section.name,
+                      module: section.module.toString()
+                    }}
+                  />
                 </div>
               </div>
 

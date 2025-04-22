@@ -54,7 +54,7 @@ export const SectionFormModal: React.FC<SectionFormModalProps> = ({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="default">
+        <Button variant={sectionId ? 'outline' : 'default'}>
           {sectionId ? (
             <Pencil className="w-4 h-4 mr-2" />
           ) : (
