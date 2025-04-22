@@ -11,11 +11,16 @@ interface Props {
 
 export const SectionModuleList = ({ sectionList, menu, submenu }: Props) => {
   return (
-    <div className="p-6 space-y-6">
+    <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-800">
-          Gestión de Secciones
-        </h1>
+        <div>
+          <h1 className="text-lg font-extrabold text-gray-800">
+            Gestión de Secciones
+          </h1>
+          <p className="text-sm text-gray-500">
+            Aquí puedes gestionar las secciones de los módulos de la aplicación.
+          </p>
+        </div>
         <Button variant="default">
           <PlusCircle className="w-4 h-4 mr-2" /> Nueva Sección
         </Button>
