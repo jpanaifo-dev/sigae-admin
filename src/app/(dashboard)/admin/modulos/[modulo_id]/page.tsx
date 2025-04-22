@@ -30,6 +30,7 @@ export default async function Page({ params }: Props) {
         sectionList={filteredSectionMenu}
         menu={dataMenu?.data || []}
         submenu={dataSubmenu?.data || []}
+        moduleId={Number(modulo_id)}
       />
     </div>
   )
