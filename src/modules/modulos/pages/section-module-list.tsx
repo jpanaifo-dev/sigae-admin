@@ -2,7 +2,8 @@ import { IMenuList, ISectionMenu, ISubMenuList } from '@/types'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Pencil, Trash2, EyeOff, Eye } from 'lucide-react'
-import { SectionFormModal } from '../components'
+import { SectionDeleteAlert, SectionFormModal } from '../components'
+import { ADMIN_URLS_APP } from '@/config/routes'
 
 interface Props {
   moduleId?: number // id del módulo al que pertenece la sección
@@ -47,6 +48,12 @@ export const SectionModuleList = ({
                       name: section.name,
                       module: section.module.toString()
                     }}
+                  />
+                  <SectionDeleteAlert
+                    id={String(section.id)}
+                    urlRevalidate={ADMIN_URLS_APP.MODULES.DETAIL(
+                      section.id.toString()
+                    )}
                   />
                 </div>
               </div>
