@@ -1,33 +1,106 @@
-import { IMenuList, ISectionMenu } from '@/types'
+import { IMenuList, ISectionMenu, ISubMenuList } from '@/types'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { Pencil, Trash2, PlusCircle, EyeOff, Eye } from 'lucide-react'
 
 interface Props {
-  sectionList: ISectionMenu[] // Cambia el tipo según la estructura de tus datos
+  sectionList: ISectionMenu[]
   menu: IMenuList[]
+  submenu?: ISubMenuList[]
 }
 
-export const SectionModuleList = ({ sectionList, menu }: Props) => {
+export const SectionModuleList = ({ sectionList, menu, submenu }: Props) => {
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4 text-gray-800">
-        Lista de Secciones
-      </h1>
+    <div className="p-6 space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-gray-800">
+          Gestión de Secciones
+        </h1>
+        <Button variant="default">
+          <PlusCircle className="w-4 h-4 mr-2" /> Nueva Sección
+        </Button>
+      </div>
+
       {sectionList.length > 0 ? (
-        <ul className="list-disc pl-5 space-y-4">
-          {sectionList.map((section) => (
-            <li key={section.id} className="text-gray-700">
-              <span className="font-medium">{section.name}</span>
-              <ul className="list-disc pl-5 space-y-2">
+        sectionList.map((section) => (
+          <Card key={section.id}>
+            <CardContent className="p-4 space-y-2">
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-semibold text-gray-700">
+                  {section.name}
+                </h2>
+                <div className="space-x-2">
+                  <Button size="icon" variant="outline" title="Editar">
+                    <Pencil className="w-4 h-4" />
+                  </Button>
+                  <Button size="icon" variant="outline" title="Eliminar">
+                    <Trash2 className="w-4 h-4 text-red-500" />
+                  </Button>
+                  <Button size="icon" variant="outline" title="Desactivar">
+                    <EyeOff className="w-4 h-4 text-yellow-500" />
+                  </Button>
+                </div>
+              </div>
+
+              <div className="ml-4">
                 {menu
                   .filter((item) => item.section === section.id)
                   .map((menuItem) => (
-                    <li key={menuItem.id} className="text-gray-600">
-                      {menuItem.name}
-                    </li>
+                    <div
+                      key={menuItem.id}
+                      className="pl-2 border-l border-gray-300 mb-2"
+                    >
+                      <div className="flex justify-between items-center text-gray-700">
+                        <span className="font-medium">{menuItem.name}</span>
+                        <div className="space-x-2">
+                          <Button size="icon" variant="ghost">
+                            <Pencil className="w-4 h-4" />
+                          </Button>
+                          <Button size="icon" variant="ghost">
+                            <Trash2 className="w-4 h-4 text-red-500" />
+                          </Button>
+                          <Button size="icon" variant="ghost">
+                            {menuItem.is_active ? (
+                              <Eye className="w-4 h-4 text-green-500" />
+                            ) : (
+                              <EyeOff className="w-4 h-4 text-yellow-500" />
+                            )}
+                          </Button>
+                        </div>
+                      </div>
+
+                      {submenu &&
+                        submenu
+                          .filter((subItem) => subItem.menu === menuItem.id)
+                          .map((subMenuItem) => (
+                            <div
+                              key={subMenuItem.id}
+                              className="ml-4 text-gray-600 flex justify-between items-center"
+                            >
+                              <span>- {subMenuItem.name}</span>
+                              <div className="space-x-1">
+                                <Button size="icon" variant="ghost">
+                                  <Pencil className="w-4 h-4" />
+                                </Button>
+                                <Button size="icon" variant="ghost">
+                                  <Trash2 className="w-4 h-4 text-red-500" />
+                                </Button>
+                                <Button size="icon" variant="ghost">
+                                  {subMenuItem.is_active ? (
+                                    <Eye className="w-4 h-4 text-green-500" />
+                                  ) : (
+                                    <EyeOff className="w-4 h-4 text-yellow-500" />
+                                  )}
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                    </div>
                   ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
+              </div>
+            </CardContent>
+          </Card>
+        ))
       ) : (
         <p className="text-gray-500">No hay secciones disponibles.</p>
       )}

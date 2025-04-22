@@ -8,7 +8,7 @@ export interface IMenuList {
   section: number
 }
 
-export interface SubMenuList {
+export interface ISubMenuList {
   id: number
   name: string
   description: string

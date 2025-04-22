@@ -1,5 +1,5 @@
 // import { fetchModuleById } from '@/api/accounts'
-import { fetchSectionMenu, fetchMenu } from '@/api/accounts'
+import { fetchSectionMenu, fetchMenu, fetchSubMenu } from '@/api/accounts'
 import { SectionModuleList } from '@/modules/modulos'
 interface Props {
   params: Promise<{ modulo_id: string }>
@@ -13,9 +13,10 @@ export default async function Page({ params }: Props) {
   //     return <div>Error al cargar el módulo</div>
   //   }
 
-  const [dataSectionMenu, dataMenu] = await Promise.all([
+  const [dataSectionMenu, dataMenu, dataSubmenu] = await Promise.all([
     fetchSectionMenu(),
-    fetchMenu()
+    fetchMenu(),
+    fetchSubMenu()
   ])
 
   const filteredSectionMenu =
@@ -28,6 +29,7 @@ export default async function Page({ params }: Props) {
       <SectionModuleList
         sectionList={filteredSectionMenu}
         menu={dataMenu?.data || []}
+        submenu={dataSubmenu?.data || []}
       />
     </div>
   )
