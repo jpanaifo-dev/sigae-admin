@@ -2,7 +2,7 @@ import { IMenuList, ISectionMenu, ISubMenuList } from '@/types'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Pencil, Trash2, Plus } from 'lucide-react'
-import { SectionDeleteAlert, SectionFormModal } from '../components'
+import { MenuForm, SectionDeleteAlert, SectionFormModal } from '../components'
 import { ADMIN_URLS_APP } from '@/config/routes'
 
 interface Props {
@@ -64,10 +64,11 @@ export const SectionModuleList = ({
                 <div className="flex justify-between items-center">
                   <h3 className="text-gray-600 font-semibold">Menús</h3>
                   {/* Botón para agregar un menú */}
-                  <Button size="sm" variant="outline">
+                  {/* <Button size="sm" variant="outline">
                     <Plus className="w-4 h-4 mr-1" />
                     Añadir menú
-                  </Button>
+                  </Button> */}
+                  <MenuForm sectionId={section.id} />
                 </div>
 
                 {menu
