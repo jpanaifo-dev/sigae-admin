@@ -18,7 +18,7 @@ export default async function Layout({ params, children }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <HeaderSection
-        title={`Módulo: ${dataModule?.data?.name}`}
+        title={`MÓDULO: ${dataModule?.data?.name}`}
         description="Gestiona las configuraciones del módulo."
         disabledActions
       />
