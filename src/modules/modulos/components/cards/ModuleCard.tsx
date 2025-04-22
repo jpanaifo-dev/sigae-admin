@@ -40,7 +40,7 @@ export const ModuleCard = ({ course }: Props) => {
 
       <CardFooter className="px-4 py-1 flex gap-2">
         <Button variant="outline" asChild>
-          <Link href={ADMIN_URLS_APP.MODULES.DETAIL(course.uuid)}>
+          <Link href={ADMIN_URLS_APP.MODULES.DETAIL(course.id.toString())}>
             Ver detalles
           </Link>
         </Button>
