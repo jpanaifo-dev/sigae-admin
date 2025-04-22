@@ -50,7 +50,7 @@ export const fetchModuleById = async (
   data?: IModule | null
   errors?: string[]
 }> => {
-  const url = `${API_BASE.MODULE}/${id}`
+  const url = `${API_BASE.MODULE}${id}`
 
   try {
     const response = await fetchUserService.get(url)
