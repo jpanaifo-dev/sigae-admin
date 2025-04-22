@@ -42,3 +42,43 @@ export const fetchModules = async (): Promise<{
     }
   }
 }
+
+export const fetchModuleById = async (
+  id: string
+): Promise<{
+  status: number
+  data?: IModule | null
+  errors?: string[]
+}> => {
+  const url = `${API_BASE.MODULE}/${id}`
+
+  try {
+    const response = await fetchUserService.get(url)
+
+    if (!response.ok) {
+      const errorResponse: {
+        [key: string]: string[]
+      } = await response.json()
+      const errorMessages = Object.values(errorResponse).flat()
+      return {
+        status: response.status,
+        errors: errorMessages,
+        data: null
+      }
+    }
+
+    // Si el estado es exitoso, parseamos los datos
+    const responseData: IModule = await response.json()
+    return {
+      status: response.status,
+      data: responseData
+    }
+  } catch (error) {
+    console.error('Error al realizar la petición:', error)
+    return {
+      status: 500,
+      errors: ['Error al conectar con el servidor.'],
+      data: null
+    }
+  }
+}
