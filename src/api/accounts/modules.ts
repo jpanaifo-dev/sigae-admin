@@ -10,7 +10,7 @@ export const fetchModules = async (): Promise<{
   data?: IModule[]
   errors?: string[]
 }> => {
-  const url = `${API_BASE.MODULE}}`
+  const url = `${API_BASE.MODULE}`
 
   try {
     const response = await fetchUserService.get(url)
