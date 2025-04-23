@@ -14,12 +14,13 @@ export default async function Page(props: props) {
 
   return (
     <>
-      {!userData.data && (
-        <NoResults
-          title="Usuario no encontrado"
-          message="No se encontraron datos del usuario seleccionado. Selecciona otro usuario o recarga el internet"
-        />
-      )}
+      {!userData.data ||
+        (userData.data === null && (
+          <NoResults
+            title="Usuario no encontrado"
+            message="No se encontraron datos del usuario seleccionado. Selecciona otro usuario o recarga el internet"
+          />
+        ))}
       {userData.data && userData?.data !== null && (
         <UserDetails userData={userData.data} />
       )}
