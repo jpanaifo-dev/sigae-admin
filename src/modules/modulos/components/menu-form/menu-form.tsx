@@ -1,6 +1,17 @@
 'use client'
-
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { menuFormSchema, MenuFormSchemaType } from './menu.schema'
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
@@ -21,119 +32,159 @@ import {
   AlertDialogDescription,
   AlertDialogAction
 } from '@/components/ui/alert-dialog'
+import { Pencil, Plus } from 'lucide-react'
+import { createOrUpdateMenu } from '@/api/accounts'
 
 interface MenuModalProps {
-  defaultValues?: {
-    name?: string
-    description?: string
-    icon?: string
-    url?: string
-    is_active?: boolean
-    section?: number | null
-  }
+  defaultValues?: Partial<MenuFormSchemaType>
   sectionId: number
-}
-
-export interface FormDataType {
-  name: string
-  description: string
-  icon: string
-  url: string
-  is_active: boolean
-  section: number | null
 }
 
 export const MenuForm = ({ defaultValues, sectionId }: MenuModalProps) => {
   const [openConfirm, setOpenConfirm] = useState(false)
-  const [formData, setFormData] = useState<FormDataType>({
-    name: defaultValues?.name ?? '',
-    description: defaultValues?.description ?? '',
-    icon: defaultValues?.icon ?? '',
-    url: defaultValues?.url ?? '',
-    is_active: defaultValues?.is_active ?? false,
-    section: defaultValues?.section ?? sectionId
+  const [isLoading, setIsLoading] = useState(false)
+
+  const form = useForm<MenuFormSchemaType>({
+    resolver: zodResolver(menuFormSchema),
+    defaultValues: {
+      name: defaultValues?.name ?? '',
+      description: defaultValues?.description ?? '',
+      icon: defaultValues?.icon ?? '',
+      url: defaultValues?.url ?? '',
+      is_active: defaultValues?.is_active ?? false,
+      section: defaultValues?.section ?? sectionId
+    }
   })
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }))
-  }
+  const isDirty = form.formState.isDirty // Verifica si el formulario ha sido modificado
 
-  const handleToggle = (value: boolean) => {
-    setFormData((prev) => ({
-      ...prev,
-      is_active: value
-    }))
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const onSubmit = (data: MenuFormSchemaType) => {
     setOpenConfirm(true)
+    console.log('Datos para guardar:', data)
   }
 
-  const confirmAction = () => {
-    setOpenConfirm(false)
+  const confirmAction = async () => {
+    setIsLoading(true) // Indica que la acción está en progreso
+    try {
+      const data = form.getValues() // Obtén los valores del formulario
+      await createOrUpdateMenu(data) // Llama a la API con los datos del formulario
+      console.log('Menú guardado exitosamente')
+      setOpenConfirm(false) // Cierra el diálogo de confirmación
+    } catch (error) {
+      console.error('Error al guardar el menú:', error)
+    } finally {
+      setIsLoading(false) // Finaliza el estado de carga
+    }
   }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="default">
+        <Button variant="ghost">
+          {defaultValues ? (
+            <Pencil className="w-4 h-4" />
+          ) : (
+            <Plus className="w-4 h-4" />
+          )}
           {defaultValues ? 'Editar menú' : 'Nuevo menú'}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
-            {defaultValues ? 'Editar menú' : 'Crear nuevo menú'}
+            {defaultValues ? `Editar ${defaultValues.name}` : 'Nuevo menú'}
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Nombre del menú"
-            required
-          />
-          <Textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            placeholder="Descripción"
-          />
-          <Input
-            name="icon"
-            value={formData.icon}
-            onChange={handleChange}
-            placeholder="Nombre del ícono (opcional)"
-          />
-          <Input
-            name="url"
-            value={formData.url}
-            onChange={handleChange}
-            placeholder="Ruta o URL del menú"
-            required
-          />
-
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-medium">Activo</label>
-            <Switch
-              checked={formData.is_active}
-              onCheckedChange={handleToggle}
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nombre</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Nombre del menú" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
 
-          <Button type="submit" className="w-full">
-            {defaultValues ? 'Actualizar menú' : 'Crear menú'}
-          </Button>
-        </form>
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Descripción</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="Descripción" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="icon"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Ícono</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Nombre del ícono (opcional)"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="url"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>URL</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Ruta o URL del menú" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="is_active"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                  <div className="space-y-0.5">
+                    <FormLabel>Activo</FormLabel>
+                    <FormDescription>¿Este menú está activo?</FormDescription>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isLoading || !isDirty}
+            >
+              {defaultValues ? 'Actualizar menú' : 'Crear menú'}
+            </Button>
+          </form>
+        </Form>
       </DialogContent>
 
       <AlertDialog open={openConfirm} onOpenChange={setOpenConfirm}>

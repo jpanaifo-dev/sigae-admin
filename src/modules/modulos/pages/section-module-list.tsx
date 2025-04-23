@@ -62,12 +62,14 @@ export const SectionModuleList = ({
 
               <div className="ml-4 space-y-4">
                 <div className="flex justify-between items-center">
-                  <h3 className="text-gray-600 font-semibold">Menús</h3>
-                  {/* Botón para agregar un menú */}
-                  {/* <Button size="sm" variant="outline">
-                    <Plus className="w-4 h-4 mr-1" />
-                    Añadir menú
-                  </Button> */}
+                  <div>
+                    <h3 className="text-gray-600 font-semibold">Menús</h3>
+                    <p className="text-sm text-gray-500">
+                      Aquí puedes gestionar los menús de la sección{' '}
+                      <span className="font-bold">{section.name}</span>.
+                    </p>
+                  </div>
+
                   <MenuForm sectionId={section.id} />
                 </div>
 
