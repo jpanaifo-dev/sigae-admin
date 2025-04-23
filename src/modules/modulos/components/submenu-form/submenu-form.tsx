@@ -1,15 +1,14 @@
 'use client'
+
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { menuFormSchema, MenuFormSchemaType } from './menu.schema'
 import {
   Form,
-  FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
+  FormControl,
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -32,83 +31,82 @@ import {
   AlertDialogDescription,
   AlertDialogAction
 } from '@/components/ui/alert-dialog'
-import { Loader, Pencil, Plus } from 'lucide-react'
-import { createOrUpdateMenu } from '@/api/accounts'
-import { ADMIN_URLS_APP } from '@/config/routes'
 
-interface MenuModalProps {
-  sectionId: number
-  defaultValues?: Partial<MenuFormSchemaType>
-  id_menu?: number
-  id_module?: string
-  iconOnly?: boolean
+import { submenuSchema, SubmenuFormData } from './submenu.schema'
+import { createOrUpdateSubMenu } from '@/api/accounts'
+import { Loader } from 'lucide-react'
+
+interface SubmenuModalProps {
+  defaultValues?: SubmenuFormData
+  subMenuId: number
+  menuId: number
+  onConfirm: (values: SubmenuFormData) => void
 }
 
-export const MenuForm = ({
+export const SubmenuModal = ({
   defaultValues,
-  sectionId,
-  id_module,
-  id_menu,
-  iconOnly = false
-}: MenuModalProps) => {
+  subMenuId,
+  menuId,
+  onConfirm
+}: SubmenuModalProps) => {
   const [openConfirm, setOpenConfirm] = useState(false)
-  const [openDialog, setOpenDialog] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  const form = useForm<MenuFormSchemaType>({
-    resolver: zodResolver(menuFormSchema),
+  const form = useForm<SubmenuFormData>({
+    resolver: zodResolver(submenuSchema),
     defaultValues: {
+      id: defaultValues?.id,
       name: defaultValues?.name ?? '',
       description: defaultValues?.description ?? '',
       icon: defaultValues?.icon ?? '',
       url: defaultValues?.url ?? '',
       is_active: defaultValues?.is_active ?? false,
-      section: defaultValues?.section ?? sectionId
+      menu: defaultValues?.menu ?? menuId
     }
   })
 
-  const isDirty = form.formState.isDirty // Verifica si el formulario ha sido modificado
+  const isDirty = form.formState.isDirty
 
   const onSubmit = () => {
     setOpenConfirm(true)
   }
 
   const confirmAction = async () => {
-    setIsLoading(true) // Indica que la acción está en progreso
+    setOpenConfirm(false)
+    setIsLoading(true)
+
+    const formData = form.getValues()
+
     try {
-      const data = form.getValues() // Obtén los valores del formulario
-      await createOrUpdateMenu({
-        data: data,
-        revalidateUrl: ADMIN_URLS_APP.MODULES.DETAIL(id_module ?? ''),
-        id: id_menu ?? undefined // Si hay un ID, lo pasamos para actualizar
-      }) // Llama a la API con los datos del formulario
-      console.log('Menú guardado exitosamente')
-      setOpenConfirm(false) // Cierra el diálogo de confirmación
+      const response = await createOrUpdateSubMenu({
+        id_subMenu: subMenuId.toString(),
+        data: formData
+      })
+
+      if (response.status === 200) {
+        onConfirm(formData)
+      } else {
+        console.error(
+          'Error al crear o actualizar el submenú:',
+          response.errors
+        )
+      }
     } catch (error) {
-      console.error('Error al guardar el menú:', error)
-    } finally {
+      console.error('Error al crear o actualizar el submenú:', error)
     }
-    setIsLoading(false) // Finaliza el estado de carga
-    setOpenDialog(false) // Cierra el diálogo del formulario
-    form.reset() // Resetea el formulario después de guardar
   }
 
   return (
-    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+    <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size={iconOnly ? 'icon' : 'default'}>
-          {defaultValues ? (
-            <Pencil className="w-4 h-4" />
-          ) : (
-            <Plus className="w-4 h-4" />
-          )}
-          {!iconOnly && <>{defaultValues ? 'Editar menú' : 'Nuevo menú'}</>}
+        <Button variant="outline">
+          {defaultValues ? 'Editar submenú' : 'Nuevo submenú'}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
-            {defaultValues ? `Editar ${defaultValues.name}` : 'Nuevo menú'}
+            {defaultValues ? 'Editar submenú' : 'Crear nuevo submenú'}
           </DialogTitle>
         </DialogHeader>
 
@@ -121,7 +119,7 @@ export const MenuForm = ({
                 <FormItem>
                   <FormLabel>Nombre</FormLabel>
                   <FormControl>
-                    <Input placeholder="Nombre del menú" {...field} />
+                    <Input placeholder="Nombre del submenú" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -149,10 +147,7 @@ export const MenuForm = ({
                 <FormItem>
                   <FormLabel>Ícono</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Nombre del ícono (opcional)"
-                      {...field}
-                    />
+                    <Input placeholder="Ícono (opcional)" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -164,9 +159,9 @@ export const MenuForm = ({
               name="url"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>URL</FormLabel>
+                  <FormLabel>Ruta o URL</FormLabel>
                   <FormControl>
-                    <Input placeholder="Ruta o URL del menú" {...field} />
+                    <Input placeholder="Ruta o URL" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -177,17 +172,15 @@ export const MenuForm = ({
               control={form.control}
               name="is_active"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
-                    <FormLabel>Activo</FormLabel>
-                    <FormDescription>¿Este menú está activo?</FormDescription>
-                  </div>
+                <FormItem className="flex items-center justify-between">
+                  <FormLabel>Activo</FormLabel>
                   <FormControl>
                     <Switch
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -198,7 +191,7 @@ export const MenuForm = ({
               disabled={isLoading || !isDirty}
             >
               {isLoading && <Loader className="animate-spin mr-2" />}
-              {defaultValues ? 'Actualizar menú' : 'Crear menú'}
+              {defaultValues ? 'Actualizar submenú' : 'Crear submenú'}
             </Button>
           </form>
         </Form>
@@ -208,7 +201,7 @@ export const MenuForm = ({
         <AlertDialogContent>
           <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
           <AlertDialogDescription>
-            Esta acción {defaultValues ? 'actualizará' : 'creará'} el menú.
+            Esta acción {defaultValues ? 'actualizará' : 'creará'} el submenú.
             ¿Deseas continuar?
           </AlertDialogDescription>
           <AlertDialogFooter>
