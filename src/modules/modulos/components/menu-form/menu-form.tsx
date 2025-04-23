@@ -42,6 +42,7 @@ interface MenuModalProps {
 
 export const MenuForm = ({ defaultValues, sectionId }: MenuModalProps) => {
   const [openConfirm, setOpenConfirm] = useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<MenuFormSchemaType>({
@@ -73,12 +74,14 @@ export const MenuForm = ({ defaultValues, sectionId }: MenuModalProps) => {
     } catch (error) {
       console.error('Error al guardar el menú:', error)
     } finally {
-      setIsLoading(false) // Finaliza el estado de carga
     }
+    setIsLoading(false) // Finaliza el estado de carga
+    setOpenDialog(false) // Cierra el diálogo del formulario
+    form.reset() // Resetea el formulario después de guardar
   }
 
   return (
-    <Dialog>
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
         <Button variant="ghost">
           {defaultValues ? (
