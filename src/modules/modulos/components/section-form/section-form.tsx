@@ -39,12 +39,14 @@ interface SectionFormModalProps {
   sectionId?: string
   moduleId?: string
   defaultValues?: SectionFormValues
+  iconOnly?: boolean
 }
 
 export const SectionFormModal: React.FC<SectionFormModalProps> = ({
   sectionId,
   moduleId,
-  defaultValues = { name: '', module: moduleId }
+  defaultValues = { name: '', module: moduleId },
+  iconOnly = false
 }) => {
   const [dialogOpen, setDialogOpen] = React.useState(false)
   const [confirmOpen, setConfirmOpen] = React.useState(false)
@@ -82,13 +84,16 @@ export const SectionFormModal: React.FC<SectionFormModalProps> = ({
     <>
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger asChild>
-          <Button variant={sectionId ? 'outline' : 'default'}>
+          <Button
+            variant={iconOnly ? 'ghost' : 'default'}
+            size={iconOnly ? 'icon' : 'default'}
+          >
             {sectionId ? (
-              <Pencil className="w-4 h-4 mr-2" />
+              <Pencil className="w-4 h-4" />
             ) : (
-              <PlusCircle className="w-4 h-4 mr-2" />
+              <PlusCircle className="w-4 h-4 " />
             )}
-            {sectionId ? 'Editar sección' : 'Añadir sección'}
+            {!iconOnly && <>{sectionId ? 'Editar' : 'Nueva'} Sección</>}
           </Button>
         </DialogTrigger>
 

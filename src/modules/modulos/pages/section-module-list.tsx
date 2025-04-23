@@ -2,7 +2,12 @@ import { IMenuList, ISectionMenu, ISubMenuList } from '@/types'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Pencil, Trash2, Plus } from 'lucide-react'
-import { MenuForm, SectionDeleteAlert, SectionFormModal } from '../components'
+import {
+  MenuDeleteAlert,
+  MenuForm,
+  SectionDeleteAlert,
+  SectionFormModal
+} from '../components'
 import { ADMIN_URLS_APP } from '@/config/routes'
 
 interface Props {
@@ -37,17 +42,31 @@ export const SectionModuleList = ({
           <Card key={section.id} className="shadow-none rounded-md border py-2">
             <CardContent className="p-4 space-y-2">
               <div className="flex justify-between items-center pb-2">
-                <h2 className="text-xl font-bold text-gray-700">
-                  {section.name}
-                </h2>
+                <div className="flex flex-col">
+                  <div className="flex items-center space-x-2">
+                    <h2 className="text-xl font-bold text-gray-700">
+                      {section.name}
+                    </h2>
+
+                    <SectionFormModal
+                      moduleId={moduleId?.toString()}
+                      sectionId={section.id.toString()}
+                      defaultValues={{
+                        name: section.name,
+                        module: section.module.toString()
+                      }}
+                      iconOnly
+                    />
+                  </div>
+                  <p className="text-sm text-gray-500">
+                    Aquí puedes gestionar los menús de la sección{' '}
+                    <span className="font-bold">{section.name}</span>.
+                  </p>
+                </div>
                 <div className="space-x-2">
-                  <SectionFormModal
-                    moduleId={moduleId?.toString()}
-                    sectionId={section.id.toString()}
-                    defaultValues={{
-                      name: section.name,
-                      module: section.module.toString()
-                    }}
+                  <MenuForm
+                    id_module={moduleId?.toString()}
+                    sectionId={section.id}
                   />
                   <SectionDeleteAlert
                     id={String(section.id)}
@@ -61,21 +80,6 @@ export const SectionModuleList = ({
               <hr className="border-gray-300" />
 
               <div className="ml-4 space-y-4">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h3 className="text-gray-600 font-semibold">Menús</h3>
-                    <p className="text-sm text-gray-500">
-                      Aquí puedes gestionar los menús de la sección{' '}
-                      <span className="font-bold">{section.name}</span>.
-                    </p>
-                  </div>
-
-                  <MenuForm
-                    id_module={moduleId?.toString()}
-                    sectionId={section.id}
-                  />
-                </div>
-
                 {menu
                   .filter((item) => item.section === section.id)
                   .map((menuItem) => (
@@ -84,11 +88,21 @@ export const SectionModuleList = ({
                       className="pl-2 border-l border-gray-300 mb-3"
                     >
                       <div className="flex justify-between items-center text-gray-700">
-                        <div className="w-full max-w-7xl">
-                          <p className="font-medium">{menuItem.name}</p>
-                          <p className="text-xs text-gray-500">
-                            {menuItem.description || 'Sin descripción'}
-                          </p>
+                        <div className="w-full max-w-7xl flex items-center space-x-2">
+                          {menuItem.icon && (
+                            <span
+                              className="text-gray-500"
+                              dangerouslySetInnerHTML={{
+                                __html: menuItem.icon
+                              }}
+                            />
+                          )}
+                          <div className="flex flex-col">
+                            <p className="font-medium">{menuItem.name}</p>
+                            <p className="text-xs text-gray-500">
+                              {menuItem.description || 'Sin descripción'}
+                            </p>
+                          </div>
                         </div>
                         <div className="space-x-2">
                           <MenuForm
@@ -105,9 +119,12 @@ export const SectionModuleList = ({
                               section: section.id
                             }}
                           />
-                          <Button size="icon" variant="ghost">
-                            <Trash2 className="w-4 h-4 text-red-500" />
-                          </Button>
+                          <MenuDeleteAlert
+                            id={menuItem.id}
+                            urlRevalidate={ADMIN_URLS_APP.MODULES.DETAIL(
+                              section.id.toString()
+                            )}
+                          />
                           {/* Botón para agregar submenú */}
                           <Button size="icon" variant="outline">
                             <Plus className="w-4 h-4" />

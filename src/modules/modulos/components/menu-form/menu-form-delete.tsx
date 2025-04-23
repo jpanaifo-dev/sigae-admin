@@ -14,20 +14,14 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { Trash2 } from 'lucide-react'
-import { deleteSectionMenu } from '@/api/accounts'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
-} from '@/components/ui/tooltip'
+import { deleteMenu } from '@/api/accounts'
 
-interface SectionDeleteAlertProps {
-  id: string
+interface MenuDeleteAlertProps {
+  id: number
   urlRevalidate?: string // Ruta a revalidar (por defecto '/')
 }
 
-export const SectionDeleteAlert: React.FC<SectionDeleteAlertProps> = ({
+export const MenuDeleteAlert: React.FC<MenuDeleteAlertProps> = ({
   id,
   urlRevalidate = '/'
 }) => {
@@ -36,9 +30,9 @@ export const SectionDeleteAlert: React.FC<SectionDeleteAlertProps> = ({
   const handleDelete = async () => {
     try {
       setIsLoading(true)
-      await deleteSectionMenu({
-        id_section: id,
-        urlRevalidate // ruta a revalidar (por defecto '/')
+      await deleteMenu({
+        id_menu: id,
+        revalidateUrl: urlRevalidate // ruta a revalidar (por defecto '/')
       }) // función API para eliminar
     } catch (error) {
       console.error('Error al eliminar sección:', error)
@@ -49,29 +43,20 @@ export const SectionDeleteAlert: React.FC<SectionDeleteAlertProps> = ({
 
   return (
     <AlertDialog>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <AlertDialogTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                className="text-red-500 hover:bg-red-500 hover:text-white"
-              >
-                <Trash2 className="w-4 h-4" />
-              </Button>
-            </AlertDialogTrigger>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p className="text-sm">Eliminar sección</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <AlertDialogTrigger asChild>
+        <Button
+          variant="outline"
+          size="icon"
+          className="text-red-500 hover:bg-red-500 hover:text-white"
+        >
+          <Trash2 className="w-4 h-4" />
+        </Button>
+      </AlertDialogTrigger>
 
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            ¿Estás seguro de eliminar esta sección?
+            ¿Estás seguro de eliminar este menú?
           </AlertDialogTitle>
           <AlertDialogDescription>
             Esta acción no se puede deshacer. El menú se eliminará de forma

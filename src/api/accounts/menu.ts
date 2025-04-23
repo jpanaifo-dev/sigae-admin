@@ -94,3 +94,43 @@ export async function createOrUpdateMenu({
     }
   }
 }
+
+export async function deleteMenu({
+  id_menu,
+  revalidateUrl
+}: {
+  id_menu: number
+  revalidateUrl?: string
+}): Promise<{
+  status: number
+  errors?: string[]
+}> {
+  const url = `${API_BASE.MENU}${id_menu}/`
+
+  try {
+    const response = await fetchUserService.delete(url)
+
+    if (!response.ok) {
+      const errorResponse: {
+        [key: string]: string[]
+      } = await response.json()
+      const errorMessages = Object.values(errorResponse).flat()
+      return {
+        status: response.status,
+        errors: errorMessages
+      }
+    }
+
+    revalidatePath(revalidateUrl ?? '/admin/modules')
+    return {
+      status: response.status,
+      errors: []
+    }
+  } catch (error) {
+    console.error('Error al realizar la petición:', error)
+    return {
+      status: 500,
+      errors: ['Error al conectar con el servidor.']
+    }
+  }
+}
