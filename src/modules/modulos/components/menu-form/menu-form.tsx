@@ -82,7 +82,6 @@ export const MenuForm = ({
         revalidateUrl: ADMIN_URLS_APP.MODULES.DETAIL(id_module ?? ''),
         id: id_menu ?? undefined // Si hay un ID, lo pasamos para actualizar
       }) // Llama a la API con los datos del formulario
-      console.log('Menú guardado exitosamente')
       setOpenConfirm(false) // Cierra el diálogo de confirmación
     } catch (error) {
       console.error('Error al guardar el menú:', error)

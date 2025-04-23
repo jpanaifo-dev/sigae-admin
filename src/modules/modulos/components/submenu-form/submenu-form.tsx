@@ -9,7 +9,8 @@ import {
   FormItem,
   FormLabel,
   FormControl,
-  FormMessage
+  FormMessage,
+  FormDescription
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -34,22 +35,26 @@ import {
 
 import { submenuSchema, SubmenuFormData } from './submenu.schema'
 import { createOrUpdateSubMenu } from '@/api/accounts'
-import { Loader } from 'lucide-react'
+import { Loader, Pencil, Plus } from 'lucide-react'
+import { ADMIN_URLS_APP } from '@/config/routes'
 
 interface SubmenuModalProps {
   defaultValues?: SubmenuFormData
-  subMenuId: number
+  subMenuId?: number
   menuId: number
-  onConfirm: (values: SubmenuFormData) => void
+  idModule?: string
+  iconOnly?: boolean
 }
 
 export const SubmenuModal = ({
   defaultValues,
   subMenuId,
   menuId,
-  onConfirm
+  idModule,
+  iconOnly = false
 }: SubmenuModalProps) => {
   const [openConfirm, setOpenConfirm] = useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<SubmenuFormData>({
@@ -72,19 +77,17 @@ export const SubmenuModal = ({
   }
 
   const confirmAction = async () => {
-    setOpenConfirm(false)
     setIsLoading(true)
 
-    const formData = form.getValues()
-
     try {
+      const formData = form.getValues()
       const response = await createOrUpdateSubMenu({
-        id_subMenu: subMenuId.toString(),
-        data: formData
+        id_subMenu: subMenuId ? subMenuId.toString() : undefined,
+        data: formData,
+        urlValidate: ADMIN_URLS_APP.MODULES.DETAIL(String(idModule))
       })
 
       if (response.status === 200) {
-        onConfirm(formData)
       } else {
         console.error(
           'Error al crear o actualizar el submenú:',
@@ -94,13 +97,23 @@ export const SubmenuModal = ({
     } catch (error) {
       console.error('Error al crear o actualizar el submenú:', error)
     }
+    setIsLoading(false) // Finaliza el estado de carga
+    setOpenDialog(false) // Cierra el diálogo del formulario
+    form.reset() // Rese
   }
 
   return (
-    <Dialog>
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <Button variant="outline">
-          {defaultValues ? 'Editar submenú' : 'Nuevo submenú'}
+        <Button variant="outline" size={iconOnly ? 'icon' : 'sm'}>
+          {subMenuId ? (
+            <Pencil className="w-4 h-4" />
+          ) : (
+            <Plus className="w-4 h-4 " />
+          )}
+          {!iconOnly && (
+            <>{defaultValues ? 'Editar submenú' : 'Nuevo submenú'}</>
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
@@ -172,15 +185,17 @@ export const SubmenuModal = ({
               control={form.control}
               name="is_active"
               render={({ field }) => (
-                <FormItem className="flex items-center justify-between">
-                  <FormLabel>Activo</FormLabel>
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                  <div className="space-y-0.5">
+                    <FormLabel>Activo</FormLabel>
+                    <FormDescription>¿Este menú está activo?</FormDescription>
+                  </div>
                   <FormControl>
                     <Switch
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />

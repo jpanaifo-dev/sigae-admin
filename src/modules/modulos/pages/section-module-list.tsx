@@ -1,7 +1,7 @@
 import { IMenuList, ISectionMenu, ISubMenuList } from '@/types'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Pencil, Trash2, Plus } from 'lucide-react'
+import { Trash2 } from 'lucide-react'
 import {
   MenuDeleteAlert,
   MenuForm,
@@ -9,6 +9,7 @@ import {
   SectionFormModal
 } from '../components'
 import { ADMIN_URLS_APP } from '@/config/routes'
+import { SubmenuModal } from '../components/submenu-form'
 
 interface Props {
   moduleId?: number
@@ -87,7 +88,7 @@ export const SectionModuleList = ({
                       key={menuItem.id}
                       className="pl-2 border-l border-gray-300 mb-3"
                     >
-                      <div className="flex justify-between items-center text-gray-700">
+                      <div className="flex justify-between items-center text-gray-700 py-1">
                         <div className="w-full max-w-7xl flex items-center space-x-2">
                           {menuItem.icon && (
                             <span
@@ -125,12 +126,14 @@ export const SectionModuleList = ({
                               section.id.toString()
                             )}
                           />
-                          {/* Botón para agregar submenú */}
-                          <Button size="icon" variant="outline">
-                            <Plus className="w-4 h-4" />
-                          </Button>
+                          <SubmenuModal
+                            menuId={menuItem.id}
+                            idModule={moduleId?.toString()}
+                            iconOnly
+                          />
                         </div>
                       </div>
+                      <hr className="border-gray-300 my-2" />
 
                       {/* Submenús */}
                       {submenu &&
@@ -143,9 +146,20 @@ export const SectionModuleList = ({
                             >
                               <span>- {subMenuItem.name}</span>
                               <div className="space-x-1">
-                                <Button size="icon" variant="ghost">
-                                  <Pencil className="w-4 h-4" />
-                                </Button>
+                                <SubmenuModal
+                                  menuId={menuItem.id}
+                                  iconOnly
+                                  subMenuId={subMenuItem.id}
+                                  idModule={moduleId?.toString()}
+                                  defaultValues={{
+                                    is_active: subMenuItem.is_active,
+                                    name: subMenuItem.name,
+                                    description: subMenuItem.description,
+                                    menu: subMenuItem.menu,
+                                    url: subMenuItem.url,
+                                    icon: subMenuItem.icon
+                                  }}
+                                />
                                 <Button size="icon" variant="ghost">
                                   <Trash2 className="w-4 h-4 text-red-500" />
                                 </Button>

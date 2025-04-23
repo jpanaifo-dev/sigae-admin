@@ -50,7 +50,7 @@ export async function createOrUpdateSubMenu({
   id_subMenu,
   urlValidate
 }: {
-  id_subMenu: string
+  id_subMenu?: string
   data: SubmenuFormData
   urlValidate?: string
 }): Promise<{
