@@ -1,4 +1,3 @@
-// import { fetchModuleById } from '@/api/accounts'
 import { fetchSectionMenu, fetchMenu, fetchSubMenu } from '@/api/accounts'
 import { SectionModuleList } from '@/modules/modulos'
 interface Props {
@@ -7,11 +6,6 @@ interface Props {
 
 export default async function Page({ params }: Props) {
   const { modulo_id } = await params
-  //   const dataModule = await fetchModuleById(modulo_id)
-
-  //   if (dataModule?.status !== 200) {
-  //     return <div>Error al cargar el módulo</div>
-  //   }
 
   const [dataSectionMenu, dataMenu, dataSubmenu] = await Promise.all([
     fetchSectionMenu(),
