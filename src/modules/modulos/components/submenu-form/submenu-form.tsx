@@ -87,7 +87,9 @@ export const SubmenuModal = ({
         urlValidate: ADMIN_URLS_APP.MODULES.DETAIL(String(idModule))
       })
 
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 201) {
+        // Si la respuesta es exitosa, puedes manejar la lógica aquí
+        console.log('Submenú creado o actualizado exitosamente:', response.data)
       } else {
         console.error(
           'Error al crear o actualizar el submenú:',
