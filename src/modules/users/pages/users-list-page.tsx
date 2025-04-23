@@ -8,6 +8,7 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { ADMIN_URLS_APP } from '@/config/routes'
+import { formatDate } from '@/lib/format-dates'
 import { IUserList } from '@/types'
 import Link from 'next/link'
 
@@ -45,9 +46,13 @@ export const UsersListPage = (props: UsersListPageProps) => {
                       </div>
                     </TableCell>
 
-                    <TableCell>{user?.date_joined}</TableCell>
-                    <TableCell>{user?.last_login}</TableCell>
+                    <TableCell>{formatDate(user?.date_joined)}</TableCell>
                     <TableCell>
+                      {user?.last_login
+                        ? formatDate(user?.last_login)
+                        : 'No registrado'}
+                    </TableCell>
+                    <TableCell className="text-center">
                       {user.is_active ? (
                         <Badge variant="default" className="rounded-full">
                           Activo
@@ -58,7 +63,7 @@ export const UsersListPage = (props: UsersListPageProps) => {
                         </Badge>
                       )}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="text-center">
                       {user.is_superuser ? (
                         <Badge variant="default" className="rounded-full">
                           Sí
