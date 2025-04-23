@@ -84,11 +84,27 @@ export const SectionModuleList = ({
                       className="pl-2 border-l border-gray-300 mb-3"
                     >
                       <div className="flex justify-between items-center text-gray-700">
-                        <span className="font-medium">{menuItem.name}</span>
+                        <div className="w-full max-w-7xl">
+                          <p className="font-medium">{menuItem.name}</p>
+                          <p className="text-xs text-gray-500">
+                            {menuItem.description || 'Sin descripción'}
+                          </p>
+                        </div>
                         <div className="space-x-2">
-                          <Button size="icon" variant="ghost">
-                            <Pencil className="w-4 h-4" />
-                          </Button>
+                          <MenuForm
+                            id_module={moduleId?.toString()}
+                            sectionId={section.id}
+                            iconOnly
+                            id_menu={menuItem.id}
+                            defaultValues={{
+                              name: menuItem.name,
+                              description: menuItem.description,
+                              icon: menuItem.icon,
+                              url: menuItem.url || undefined,
+                              is_active: menuItem.is_active,
+                              section: section.id
+                            }}
+                          />
                           <Button size="icon" variant="ghost">
                             <Trash2 className="w-4 h-4 text-red-500" />
                           </Button>

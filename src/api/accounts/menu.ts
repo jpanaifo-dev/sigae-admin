@@ -59,7 +59,7 @@ export async function createOrUpdateMenu({
   errors?: string[]
   revalidateUrl?: string
 }> {
-  const url = id ? `${API_BASE.MENU}/${id}/` : API_BASE.MENU
+  const url = id ? `${API_BASE.MENU}${id}/` : API_BASE.MENU
 
   try {
     const response = id

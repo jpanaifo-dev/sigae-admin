@@ -39,13 +39,17 @@ import { ADMIN_URLS_APP } from '@/config/routes'
 interface MenuModalProps {
   sectionId: number
   defaultValues?: Partial<MenuFormSchemaType>
+  id_menu?: number
   id_module?: string
+  iconOnly?: boolean
 }
 
 export const MenuForm = ({
   defaultValues,
   sectionId,
-  id_module
+  id_module,
+  id_menu,
+  iconOnly = false
 }: MenuModalProps) => {
   const [openConfirm, setOpenConfirm] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
@@ -76,7 +80,8 @@ export const MenuForm = ({
       const data = form.getValues() // Obtén los valores del formulario
       await createOrUpdateMenu({
         data: data,
-        revalidateUrl: ADMIN_URLS_APP.MODULES.DETAIL(id_module ?? '')
+        revalidateUrl: ADMIN_URLS_APP.MODULES.DETAIL(id_module ?? ''),
+        id: id_menu ?? undefined // Si hay un ID, lo pasamos para actualizar
       }) // Llama a la API con los datos del formulario
       console.log('Menú guardado exitosamente')
       setOpenConfirm(false) // Cierra el diálogo de confirmación
@@ -92,13 +97,13 @@ export const MenuForm = ({
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <Button variant="ghost">
+        <Button variant="ghost" size={iconOnly ? 'icon' : 'default'}>
           {defaultValues ? (
             <Pencil className="w-4 h-4" />
           ) : (
             <Plus className="w-4 h-4" />
           )}
-          {defaultValues ? 'Editar menú' : 'Nuevo menú'}
+          {!iconOnly && <>{defaultValues ? 'Editar menú' : 'Nuevo menú'}</>}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
