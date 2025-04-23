@@ -16,5 +16,12 @@ export const ADMIN_URLS_APP = {
     CREATE: `${URL_BASE}/modulos/crear`,
     EDIT: (id: string) => `${URL_BASE}/modulos/editar/${id}`,
     DETAIL: (id: string) => `${URL_BASE}/modulos/${id}`
+  },
+  USERS: {
+    URL_BASE: `${URL_BASE}/usuarios`,
+    LIST: `${URL_BASE}/usuarios/lista`,
+    CREATE: `${URL_BASE}/usuarios/crear`,
+    EDIT: (id: string) => `${URL_BASE}/usuarios/editar/${id}`,
+    DETAIL: (id: string) => `${URL_BASE}/usuarios/${id}`
   }
 }
