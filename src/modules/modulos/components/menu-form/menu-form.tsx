@@ -34,13 +34,19 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Pencil, Plus } from 'lucide-react'
 import { createOrUpdateMenu } from '@/api/accounts'
+import { ADMIN_URLS_APP } from '@/config/routes'
 
 interface MenuModalProps {
-  defaultValues?: Partial<MenuFormSchemaType>
   sectionId: number
+  defaultValues?: Partial<MenuFormSchemaType>
+  id_module?: string
 }
 
-export const MenuForm = ({ defaultValues, sectionId }: MenuModalProps) => {
+export const MenuForm = ({
+  defaultValues,
+  sectionId,
+  id_module
+}: MenuModalProps) => {
   const [openConfirm, setOpenConfirm] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -68,7 +74,10 @@ export const MenuForm = ({ defaultValues, sectionId }: MenuModalProps) => {
     setIsLoading(true) // Indica que la acción está en progreso
     try {
       const data = form.getValues() // Obtén los valores del formulario
-      await createOrUpdateMenu(data) // Llama a la API con los datos del formulario
+      await createOrUpdateMenu({
+        data: data,
+        revalidateUrl: ADMIN_URLS_APP.MODULES.DETAIL(id_module ?? '')
+      }) // Llama a la API con los datos del formulario
       console.log('Menú guardado exitosamente')
       setOpenConfirm(false) // Cierra el diálogo de confirmación
     } catch (error) {

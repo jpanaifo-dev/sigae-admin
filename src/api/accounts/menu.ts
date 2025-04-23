@@ -3,6 +3,7 @@ import { IMenuList } from '@/types'
 import { ENDPOINTS_CONFIG } from '@/config/modules'
 import { fetchUserService } from '../core'
 import { MenuFormSchemaType } from '@/modules/modulos/components/menu-form/menu.schema'
+import { revalidatePath } from 'next/cache'
 
 const API_BASE = ENDPOINTS_CONFIG.MODULES
 
@@ -44,13 +45,19 @@ export const fetchMenu = async (): Promise<{
   }
 }
 
-export async function createOrUpdateMenu(
-  data: MenuFormSchemaType,
+export async function createOrUpdateMenu({
+  data,
+  id,
+  revalidateUrl
+}: {
+  data: MenuFormSchemaType
   id?: number
-): Promise<{
+  revalidateUrl?: string
+}): Promise<{
   status: number
   data?: IMenuList | null
   errors?: string[]
+  revalidateUrl?: string
 }> {
   const url = id ? `${API_BASE.MENU}/${id}/` : API_BASE.MENU
 
@@ -73,6 +80,7 @@ export async function createOrUpdateMenu(
 
     // Si el estado es exitoso, parseamos los datos
     const responseData = await response.json()
+    revalidatePath(revalidateUrl ?? '/admin/modules')
     return {
       status: response.status,
       data: responseData

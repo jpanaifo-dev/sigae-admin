@@ -70,7 +70,10 @@ export const SectionModuleList = ({
                     </p>
                   </div>
 
-                  <MenuForm sectionId={section.id} />
+                  <MenuForm
+                    id_module={moduleId?.toString()}
+                    sectionId={section.id}
+                  />
                 </div>
 
                 {menu
