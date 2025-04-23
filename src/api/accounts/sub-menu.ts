@@ -96,3 +96,50 @@ export async function createOrUpdateSubMenu({
     }
   }
 }
+
+export async function deleteSubmenu({
+  id_submenu,
+  urlRevalidate = '/'
+}: {
+  id_submenu: number
+  urlRevalidate?: string
+}): Promise<{
+  status: number
+  data?: ISubMenuList | null
+  errors?: string[]
+}> {
+  const url = `${API_BASE.SUBMENU}${id_submenu}/`
+
+  try {
+    const response = await fetchUserService.delete(url)
+
+    if (!response.ok) {
+      const errorResponse: {
+        [key: string]: string[]
+      } = await response.json()
+      const errorMessages = Object.values(errorResponse).flat()
+      return {
+        status: response.status,
+        errors: errorMessages,
+        data: null
+      }
+    }
+
+    if (urlRevalidate) {
+      revalidatePath(urlRevalidate)
+    }
+
+    return {
+      status: response.status,
+      data: null,
+      errors: []
+    }
+  } catch (error) {
+    console.error('Error al realizar la petición:', error)
+    return {
+      status: 500,
+      errors: ['Error al conectar con el servidor.'],
+      data: null
+    }
+  }
+}

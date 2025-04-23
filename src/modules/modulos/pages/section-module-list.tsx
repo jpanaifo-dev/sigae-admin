@@ -1,7 +1,5 @@
 import { IMenuList, ISectionMenu, ISubMenuList } from '@/types'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Trash2 } from 'lucide-react'
 import {
   MenuDeleteAlert,
   MenuForm,
@@ -9,7 +7,7 @@ import {
   SectionFormModal
 } from '../components'
 import { ADMIN_URLS_APP } from '@/config/routes'
-import { SubmenuModal } from '../components/submenu-form'
+import { SubmenuDeleteAlert, SubmenuModal } from '../components/submenu-form'
 
 interface Props {
   moduleId?: number
@@ -160,9 +158,15 @@ export const SectionModuleList = ({
                                     icon: subMenuItem.icon
                                   }}
                                 />
-                                <Button size="icon" variant="ghost">
+                                {/* <Button size="icon" variant="ghost">
                                   <Trash2 className="w-4 h-4 text-red-500" />
-                                </Button>
+                                </Button> */}
+                                <SubmenuDeleteAlert
+                                  id={subMenuItem.id}
+                                  urlRevalidate={ADMIN_URLS_APP.MODULES.DETAIL(
+                                    moduleId?.toString() || ''
+                                  )}
+                                />
                               </div>
                             </div>
                           ))}
