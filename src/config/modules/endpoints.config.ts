@@ -32,8 +32,8 @@ export const ENDPOINTS_CONFIG = {
     SUBMENU: `${BASE_PATHS.ACCOUNTS}submenu/`,
     SECTION_MENU: `${BASE_PATHS.ACCOUNTS}sectionmenu/`,
     USER: `${BASE_PATHS.ACCOUNTS}user/`,
-    USER_ACCESS: `${BASE_PATHS.ACCOUNTS}user/useraccess/`,
-    USER_ROLE: `${BASE_PATHS.ACCOUNTS}user/userrole/`,
+    USER_ACCESS: `${BASE_PATHS.ACCOUNTS}useraccess/`,
+    USER_ROLE: `${BASE_PATHS.ACCOUNTS}userrole/`,
     AUDIT: `${BASE_PATHS.ACCOUNTS}audit/`,
   },
   PERSON: {

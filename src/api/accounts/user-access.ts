@@ -1,19 +1,19 @@
 'use server'
-import { IUserRole, IResApi } from '@/types'
+import { IUserAccess, IResApi } from '@/types'
 import { ENDPOINTS_CONFIG } from '@/config/modules'
 import { fetchUserService } from '../core'
 
 const API_BASE = ENDPOINTS_CONFIG.MODULES
 
-const DATA_DEFAULT: IResApi<IUserRole> = {
+const DATA_DEFAULT: IResApi<IUserAccess> = {
   count: 0,
   next: null,
   previous: null,
   results: []
 }
 
-export const fetchUsersRoles = async (): Promise<IResApi<IUserRole>> => {
-  const url = `${API_BASE.USER_ROLE}`
+export const fetchUsersAccess = async (): Promise<IResApi<IUserAccess>> => {
+  const url = `${API_BASE.USER_ACCESS}`
 
   try {
     const response = await fetchUserService.get(url)
@@ -23,7 +23,7 @@ export const fetchUsersRoles = async (): Promise<IResApi<IUserRole>> => {
     }
 
     // Si el estado es exitoso, parseamos los datos
-    const responseData: IResApi<IUserRole> = await response.json()
+    const responseData: IResApi<IUserAccess> = await response.json()
     return responseData
   } catch (error) {
     console.error('Error al realizar la petición:', error)
@@ -31,10 +31,10 @@ export const fetchUsersRoles = async (): Promise<IResApi<IUserRole>> => {
   }
 }
 
-export const fetchUserRoleById = async (
+export const fetchUserAccessById = async (
   id: string
-): Promise<IResApi<IUserRole>> => {
-  const url = `${API_BASE.USER_ROLE}${id}/`
+): Promise<IResApi<IUserAccess>> => {
+  const url = `${API_BASE.USER_ACCESS}${id}/`
 
   try {
     const response = await fetchUserService.get(url)
@@ -44,7 +44,7 @@ export const fetchUserRoleById = async (
     }
 
     // Si el estado es exitoso, parseamos los datos
-    const responseData: IResApi<IUserRole> = await response.json()
+    const responseData: IResApi<IUserAccess> = await response.json()
     return responseData
   } catch (error) {
     console.error('Error al realizar la petición:', error)
@@ -52,10 +52,10 @@ export const fetchUserRoleById = async (
   }
 }
 
-export const fetchUserRoleByUserId = async (
+export const fetchUserAccessByUserId = async (
   id: string
-): Promise<IResApi<IUserRole>> => {
-  const url = `${API_BASE.USER_ROLE}`
+): Promise<IResApi<IUserAccess>> => {
+  const url = `${API_BASE.USER_ACCESS}`
 
   try {
     const response = await fetchUserService.get(url)
@@ -67,7 +67,7 @@ export const fetchUserRoleByUserId = async (
     // Si el estado es exitoso, parseamos los datos
     const responseData = await response.json()
     const filteredData = responseData.filter(
-      (item: IUserRole) => Number(item.user) === Number(id)
+      (item: IUserAccess) => Number(item.user) === Number(id)
     )
     return {
       count: filteredData.length,

@@ -11,7 +11,7 @@ export default async function Page({ params }: props) {
   const { usuario_id } = await params
 
   const userData = await fetchUserById(usuario_id)
-  const personData = await fetchPerson(userData.data?.person_uuid || '')
+  const personData = await fetchPerson(String(userData.data?.person_uuid))
 
   return (
     <>
