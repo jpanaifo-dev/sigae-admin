@@ -1,4 +1,5 @@
 import { fetchUserById } from '@/api/accounts'
+import { ADMIN_URLS_APP } from '@/config/routes'
 import { NoResults } from '@/modules/core'
 import { UserDetails } from '@/modules/users'
 interface props {
@@ -21,7 +22,10 @@ export default async function Page({ params }: props) {
         />
       )}
       {userData.data && userData?.data !== null && (
-        <UserDetails userData={userData.data} />
+        <UserDetails
+          userData={userData.data}
+          url_redirect={ADMIN_URLS_APP.USERS.URL_BASE}
+        />
       )}
     </>
   )

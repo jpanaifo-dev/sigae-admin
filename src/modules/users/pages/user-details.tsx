@@ -15,14 +15,13 @@ export const UserDetails = (props: IUserDetailsProps) => {
 
   return (
     <>
-      <div className="space-y-2 w-full">
+      <div className="space-y-2 w-full flex gap-3 items-center">
         {!hiddenBackButton && (
           <Link
             href={url_redirect || '#'}
-            className="flex items-center gap-2 text-sm text-muted-foreground mb-2 hover:text-gray-700"
+            className="flex items-center gap-2 text-sm text-muted-foreground mb-2 hover:text-gray-700 rounded-full transition-colors duration-200 border border-gray-200 p-2"
           >
             <ArrowLeft className="w-4 h-4" />
-            Volver
           </Link>
         )}
         <div className="flex items-center gap-4">
