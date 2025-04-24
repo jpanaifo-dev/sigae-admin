@@ -1,4 +1,5 @@
 import { fetchUserById } from '@/api/accounts'
+import { fetchPerson } from '@/api/persons'
 import { ADMIN_URLS_APP } from '@/config/routes'
 import { NoResults } from '@/modules/core'
 import { UserDetails } from '@/modules/users'
@@ -10,8 +11,7 @@ export default async function Page({ params }: props) {
   const { usuario_id } = await params
 
   const userData = await fetchUserById(usuario_id)
-
-  console.log('user data', userData)
+  const personData = await fetchPerson(userData.data?.person_uuid || '')
 
   return (
     <>
@@ -21,12 +21,12 @@ export default async function Page({ params }: props) {
           message="No se encontraron datos del usuario seleccionado. Selecciona otro usuario o recarga el internet"
         />
       )}
-      {userData.data && userData?.data !== null && (
+      {/* {userData.data && userData?.data !== null && (
         <UserDetails
           userData={userData.data}
           url_redirect={ADMIN_URLS_APP.USERS.URL_BASE}
         />
-      )}
+      )} */}
     </>
   )
 }

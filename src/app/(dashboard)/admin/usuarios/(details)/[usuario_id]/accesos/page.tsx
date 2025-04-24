@@ -1,5 +1,7 @@
-import React from 'react'
+interface IProps {
+  params: Promise<{ usuario_id: string }>
+}
 
-export default function Page() {
+export default async function Page({ params }: IProps) {
   return <div>page</div>
 }
