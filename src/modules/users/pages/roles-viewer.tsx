@@ -1,5 +1,6 @@
 // RolesViewer.tsx
 
+import { Badge } from '@/components/ui/badge'
 import { ISectionMenu, IUserAccessList, IUserRoleList } from '@/types'
 
 interface RolesViewerProps {
@@ -18,15 +19,17 @@ export const RolesViewer = ({
       {/* MÓDULOS */}
       <section>
         <h2 className="font-semibold mb-2">Módulos Asignados</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {modules.map((mod) => (
             <div
               key={mod.id}
-              className={`p-4 rounded-lg border ${
-                mod.is_active ? 'bg-green-100' : 'bg-red-100'
+              className={`p-4 py-6 rounded-md border border-l-4 ${
+                mod.is_active
+                  ? 'border-l-primary'
+                  : 'bg-gray-100 border-l-red-500'
               }`}
             >
-              <h3 className="font-semibold flex items-center gap-2">
+              <h3 className="font-bold flex items-center gap-2">
                 {/* {mod.module.icon && (
                   <img src={mod.module.icon} alt="icon" className="w-5 h-5" />
                 )} */}
@@ -34,7 +37,12 @@ export const RolesViewer = ({
               </h3>
               <p className="text-sm">
                 {mod.is_admin ? 'Administrador' : 'Usuario'} | Estado:{' '}
-                {mod.is_active ? 'Activo' : 'Inactivo'}
+                <Badge
+                  className="rounded-full"
+                  variant={mod.is_active ? 'default' : 'destructive'}
+                >
+                  {mod.is_active ? 'Activo' : 'Inactivo'}
+                </Badge>
               </p>
             </div>
           ))}
@@ -43,7 +51,7 @@ export const RolesViewer = ({
 
       {/* MENÚS Y SUBMENÚS */}
       <section>
-        <h2 className="text-xl font-bold mb-2">Menús y Submenús</h2>
+        <h2 className="font-semibold mb-2">Menús y Submenús</h2>
         {sections.map((section) => {
           const sectionMenus = menuRoles.filter(
             (r) => r.menu.section === section.id
