@@ -1,5 +1,6 @@
-import { fetchUserAccessByUserId } from '@/api/accounts'
+import { fetchUserAccessByUserId, fetchSectionMenu } from '@/api/accounts'
 import { fetchUserRoleByUserId } from '@/api/accounts/user-role'
+import { RolesViewer } from '@/modules/users'
 
 interface IProps {
   params: Promise<{ usuario_id: string }>
@@ -10,9 +11,13 @@ export default async function Page({ params }: IProps) {
 
   const userRoles = await fetchUserRoleByUserId(usuario_id)
   const userAccess = await fetchUserAccessByUserId(usuario_id)
+  const sectionList = await fetchSectionMenu()
 
-  console.log('userRoles', userRoles)
-  console.log('userAccess', userAccess)
-
-  return <div>page</div>
+  return (
+    <RolesViewer
+      modules={userRoles.results}
+      sections={sectionList.data || []}
+      menuRoles={userAccess.results || []}
+    />
+  )
 }
