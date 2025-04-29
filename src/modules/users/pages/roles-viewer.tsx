@@ -78,7 +78,10 @@ export const RolesViewer = ({
                 <h3 className="font-semibold text-lg text-gray-800">
                   {mod.module.name}
                 </h3>
-                <Badge variant={mod.is_active ? 'default' : 'destructive'}>
+                <Badge
+                  variant={mod.is_active ? 'default' : 'destructive'}
+                  className="rounded-full"
+                >
                   {mod.is_active ? 'Activo' : 'Inactivo'}
                 </Badge>
               </div>
