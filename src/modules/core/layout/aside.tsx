@@ -23,8 +23,8 @@ export const Aside = ({ items, selectedId, children }: AsideProps) => {
     selectedId || items.find((item) => item.href === pathname)?.id || '' // Alternativa si no usas usePathname
 
   return (
-    <div className="flex gap-4 w-full">
-      <aside className="w-64 border-r">
+    <div className="flex gap-4 w-full md:gap-6">
+      <aside className="w-64">
         <nav className="flex flex-col gap-2">
           {items.map((item) => (
             <Link

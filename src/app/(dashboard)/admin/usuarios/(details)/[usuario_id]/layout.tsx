@@ -20,7 +20,7 @@ export default async function Layout({
 
   return (
     <div className="py-4">
-      <div className="bg-white border rounded-md p-4 mb-4 flex gap-4 items-start">
+      <div className="bg-white border rounded-md p-4 mb-4 flex gap-4 items-start md:gap-6">
         <Link href={ADMIN_URLS_APP.USERS.URL_BASE}>
           <div className="bg-white border rounded-full p-2">
             <ArrowLeftIcon className="w-4 h-4 text-gray-500" />

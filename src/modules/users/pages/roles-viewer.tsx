@@ -15,7 +15,7 @@ export const RolesViewer = ({
   sections
 }: RolesViewerProps) => {
   return (
-    <div className="space-y-6 w-full">
+    <div className="w-full flex flex-col gap-4 md:gap-6">
       {/* MÓDULOS */}
       <section>
         <h2 className="font-semibold mb-2">Módulos Asignados</h2>
