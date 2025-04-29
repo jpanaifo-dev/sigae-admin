@@ -1,7 +1,7 @@
 // Aside.tsx
 'use client'
 import React from 'react'
-import { usePathname } from 'next/navigation' // Si usas Next.js
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import clsx from 'clsx'
 
