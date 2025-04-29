@@ -22,6 +22,9 @@ export const ADMIN_URLS_APP = {
     LIST: `${URL_BASE}/usuarios/lista`,
     CREATE: `${URL_BASE}/usuarios/crear`,
     EDIT: (id: string) => `${URL_BASE}/usuarios/editar/${id}`,
-    DETAIL: (id: string) => `${URL_BASE}/usuarios/${id}`
+    DETAIL: (id: string) => `${URL_BASE}/usuarios/${id}`,
+    PERMISSIONS: (id: string) => `${URL_BASE}/usuarios/${id}/accesos`,
+    ROLES: (id: string) => `${URL_BASE}/usuarios/${id}/roles`,
+    LOGS: (id: string) => `${URL_BASE}/usuarios/${id}/logs`
   }
 }

@@ -11,5 +11,8 @@ export default async function Page({ params }: IProps) {
   const userRoles = await fetchUserRoleByUserId(usuario_id)
   const userAccess = await fetchUserAccessByUserId(usuario_id)
 
+  console.log('userRoles', userRoles)
+  console.log('userAccess', userAccess)
+
   return <div>page</div>
 }
