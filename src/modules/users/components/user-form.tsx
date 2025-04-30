@@ -72,7 +72,7 @@ export function UserForm({ userData }: UserFormProps) {
   }
 
   return (
-    <Card className="w-full shadow-none">
+    <Card className="w-full shadow-none rounded-md">
       <CardHeader>
         <CardTitle className="text-xl font-medium">
           Información de Usuario
@@ -235,16 +235,6 @@ export function UserForm({ userData }: UserFormProps) {
                       locale: es
                     })}
                   </p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-medium">UUID</p>
-                  <p className="text-sm text-muted-foreground">
-                    {userData.uuid}
-                  </p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-medium">ID</p>
-                  <p className="text-sm text-muted-foreground">{userData.id}</p>
                 </div>
               </div>
             </div>

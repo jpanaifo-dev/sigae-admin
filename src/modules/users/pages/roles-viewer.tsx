@@ -83,7 +83,7 @@ export const RolesViewer = ({
           return (
             <div
               key={mod.id}
-              className="bg-gray-50 p-6 rounded-lg shadow-md mb-6"
+              className="bg-gray-50 p-6 rounded-lg border mb-6"
             >
               <div className="flex justify-between items-center mb-4">
                 <h3 className="font-semibold text-lg text-gray-800">
