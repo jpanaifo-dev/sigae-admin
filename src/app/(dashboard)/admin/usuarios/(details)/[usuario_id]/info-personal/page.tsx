@@ -1,4 +1,5 @@
 import { fetchUserById } from '@/api/accounts'
+import { fetchPerson } from '@/api/persons'
 import { NoResults } from '@/modules/core'
 import { UserForm } from '@/modules/users/components/user-form'
 interface props {
@@ -9,6 +10,9 @@ export default async function Page({ params }: props) {
   const { usuario_id } = await params
 
   const userData = await fetchUserById(usuario_id)
+  const personData = await fetchPerson(String(userData.data?.person_uuid))
+
+  console.log('personData', personData)
 
   return (
     <>
@@ -21,6 +25,14 @@ export default async function Page({ params }: props) {
       {userData && userData.data !== null && userData.data !== undefined && (
         <UserForm userData={userData.data} />
       )}
+      {/* 
+      {userData.data && userData?.data !== null && (
+        <UserDetails
+          userData={userData.data}
+          url_redirect={ADMIN_URLS_APP.USERS.URL_BASE}
+        />
+      )} 
+       */}
     </>
   )
 }

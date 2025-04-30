@@ -40,7 +40,7 @@ export const Aside = ({ items, selectedId, children }: AsideProps) => {
           ))}
         </nav>
       </aside>
-      <div className="w-3/4">{children}</div>
+      <div className="w-full">{children}</div>
     </div>
   )
 }

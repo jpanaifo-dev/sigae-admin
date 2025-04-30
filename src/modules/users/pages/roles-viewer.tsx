@@ -1,4 +1,5 @@
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { ISectionMenu, IUserAccessList, IUserRoleList } from '@/types'
 
 interface RolesViewerProps {
@@ -16,9 +17,18 @@ export const RolesViewer = ({
     <div className="w-full flex flex-col gap-6 bg-white p-6 rounded-lg border border-gray-200">
       {/* MÓDULOS */}
       <section>
-        <h2 className="font-semibold text-xl mb-4 text-gray-800">
-          Módulos Asignados
-        </h2>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col gap-1">
+            <h2 className="font-semibold text-xl text-gray-800">
+              Módulos Asignados
+            </h2>
+            <p className="text-sm text-gray-500">
+              Los módulos asignados al usuario se muestran a continuación. Cada
+              módulo tiene un estado que indica si está activo o inactivo.
+            </p>
+          </div>
+          <Button variant="outline">Agregar Módulo</Button>
+        </div>
         {modules.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {modules.map((mod) => (
@@ -60,6 +70,7 @@ export const RolesViewer = ({
             Los accesos están organizados por módulo, sección, y luego
             menú/submenús.
           </p>
+          <Button variant="outline">Agregar Acceso</Button>
         </div>
 
         {modules.map((mod) => {
